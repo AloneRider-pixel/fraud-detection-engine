@@ -36,3 +36,9 @@ def test_redis_store_matches_memory_store():
     seq = [(1, "A", "B", 10.0), (5, "A", "B", 5.0), (5, "X", "B", 1.0), (40, "A", "B", 1.0)]
     for s in seq:
         assert mem.observe(*s) == red.observe(*s)
+
+
+def test_demo_page_served(artifacts, tmp_path):
+    r = client(artifacts, tmp_path).get("/")
+    assert r.status_code == 200
+    assert "synthetic" in r.text and "/score" in r.text
