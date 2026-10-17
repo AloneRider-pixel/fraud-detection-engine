@@ -1,0 +1,16 @@
+services:
+  redis:
+    image: redis:7-alpine
+  api:
+    build: .
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      AUDIT_DB: /data/audit.db
+    volumes:
+      - audit:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+volumes:
+  audit:
