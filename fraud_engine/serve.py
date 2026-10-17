@@ -12,8 +12,10 @@ import time
 import numpy as np
 import onnxruntime as ort
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
+from .demo import DEMO_HTML
 from .features import FEATURES, WINDOW_STEPS, MemoryVelocityStore, build_vector
 
 ART = os.environ.get("ARTIFACT_DIR", "artifacts")
@@ -81,6 +83,10 @@ def create_app(store=None, artifact_dir=ART, audit_db=None):
     db = sqlite3.connect(audit_db or os.environ.get("AUDIT_DB", "audit.db"), check_same_thread=False)
     db.execute("CREATE TABLE IF NOT EXISTS audit (ts REAL, name_orig TEXT, step INT, amount REAL,"
                " fraud_prob REAL, action TEXT, latency_ms REAL)")
+
+    @app.get("/", response_class=HTMLResponse, include_in_schema=False)
+    def demo():
+        return DEMO_HTML
 
     @app.get("/health")
     def health():
