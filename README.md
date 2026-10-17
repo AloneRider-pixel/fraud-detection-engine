@@ -17,6 +17,10 @@ POST /score  ->  velocity features (Redis or memory)  ->  ONNX model  ->  {"frau
 - Metrics on synthetic data only show that the pipeline works. They are not a claim about real fraud.
 - Audit log is SQLite, not PostgreSQL. This avoids a managed database that expires on free tiers.
 
+## Live demo
+
+https://fraud-detection-engine-6n53.onrender.com (free Render instance: sleeps when idle, so the first request can be slow; synthetic-data model, in-memory state that resets on restart). The page at `/` has a form and two sample transactions.
+
 ## Design decisions
 
 - **Time-based split.** Train on earlier steps, validate and test on later ones. No random shuffle.
