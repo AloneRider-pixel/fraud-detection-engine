@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: fraud-detection-engine
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
